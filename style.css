@@ -1,0 +1,251 @@
+/* ── Variables ── */
+:root {
+  --creme:      #F5F0E8;
+  --holz:       #C8956C;
+  --olivgruen:  #6B7C4A;
+  --dunkelbraun:#3B2A1A;
+  --schwarz:    #1A1A1A;
+
+  --font-display: 'Niconne', cursive;
+  --font-body:    'Open Sans', sans-serif;
+
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(59,42,26,0.13);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ── */
+html, body {
+  min-height: 100vh;
+  background: var(--creme);
+  color: var(--dunkelbraun);
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+/* ── Background texture ── */
+.bg-texture {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(200,149,108,0.10) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(107,124,74,0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ── */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+header {
+  width: 100%;
+  max-width: 520px;
+  padding: 48px 0 24px;
+  text-align: center;
+}
+
+.logo-brand {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--dunkelbraun);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.logo-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--holz);
+  margin-top: 4px;
+}
+
+/* ── Main ── */
+main {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+/* ── Card ── */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 28px 24px;
+  border: 1.5px solid rgba(59,42,26,0.07);
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Label ── */
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--holz);
+  margin-bottom: 10px;
+}
+
+/* ── Input row ── */
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+input[type="url"] {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid rgba(59,42,26,0.18);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--dunkelbraun);
+  background: var(--creme);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="url"]:focus {
+  border-color: var(--holz);
+}
+
+input[type="url"]::placeholder {
+  color: rgba(59,42,26,0.35);
+  font-size: 0.85rem;
+}
+
+/* ── Primary button ── */
+button#generate-btn {
+  padding: 12px 20px;
+  background: var(--holz);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+button#generate-btn:hover  { background: #b57d56; }
+button#generate-btn:active { transform: scale(0.97); }
+
+/* ── Hint ── */
+.hint {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: rgba(59,42,26,0.45);
+  line-height: 1.5;
+}
+
+/* ── QR Card ── */
+.qr-card {
+  text-align: center;
+}
+
+.qr-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#qr-canvas {
+  border-radius: 8px;
+  border: 6px solid var(--creme);
+  box-shadow: 0 2px 12px rgba(59,42,26,0.10);
+}
+
+/* ── Download buttons ── */
+.download-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.dl-btn {
+  padding: 10px 24px;
+  border: 2px solid var(--dunkelbraun);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dunkelbraun);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.1s;
+}
+
+.dl-btn:hover {
+  background: var(--dunkelbraun);
+  color: var(--creme);
+}
+
+.dl-btn:active { transform: scale(0.97); }
+
+/* ── URL label under QR ── */
+.qr-url-label {
+  font-size: 0.72rem;
+  color: rgba(59,42,26,0.40);
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* ── Footer ── */
+footer {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  padding: 28px 0 36px;
+  font-size: 0.72rem;
+  letter-spacing: 0.10em;
+  color: rgba(59,42,26,0.35);
+  text-transform: uppercase;
+}
+
+/* ── Error state ── */
+input.error {
+  border-color: #c0392b;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .logo-brand { font-size: 2.4rem; }
+  .card { padding: 22px 18px 18px; }
+  .input-row { flex-direction: column; }
+  button#generate-btn { width: 100%; }
+}
