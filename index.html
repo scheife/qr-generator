@@ -2,9 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪵</text></svg>" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kostenloser QR Generator – HoamatWerk</title>
+  <title>QR Generator – HoamatWerk</title>
   <link href="https://fonts.googleapis.com/css2?family=Niconne&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script src="qrcode.min.js"></script>
@@ -25,9 +24,7 @@
       <p class="hint">Funktioniert mit OneDrive, Links, Websites – alles was eine URL hat.</p>
     </div>
     <div class="card qr-card" id="qr-card" style="display:none;">
-      <div class="qr-wrap" id="qr-wrap">
-        <canvas id="qr-canvas"></canvas>
-      </div>
+      <div class="qr-wrap" id="qr-wrap"></div>
       <div class="download-row">
         <button class="dl-btn" id="dl-png">⬇ PNG</button>
         <button class="dl-btn" id="dl-svg">⬇ SVG</button>
@@ -35,7 +32,7 @@
       <p class="qr-url-label" id="qr-url-label"></p>
     </div>
   </main>
-  <footer><span>Echt Hondg'mocht · HoamatWerk</span></footer>
+  <footer><span>Echt Hondg'mocht · HoamatWerk · <a href="impressum.html" style="color:inherit;text-decoration:none;opacity:0.7;">Impressum</a></span></footer>
   <script src="script.js"></script>
 </body>
 </html>
