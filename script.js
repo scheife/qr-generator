@@ -6,7 +6,7 @@ const dlPng    = document.getElementById('dl-png');
 const dlSvg    = document.getElementById('dl-svg');
 const urlLabel = document.getElementById('qr-url-label');
 
-const DARK  = '#3B2A1A';
+const DARK  = '#000000';
 const LIGHT = '#ffffff';
 
 let qrInstance = null;
