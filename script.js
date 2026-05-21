@@ -1,16 +1,16 @@
-const input     = document.getElementById('url-input');
-const genBtn    = document.getElementById('generate-btn');
-const qrCard    = document.getElementById('qr-card');
-const canvas    = document.getElementById('qr-canvas');
-const dlPng     = document.getElementById('dl-png');
-const dlSvg     = document.getElementById('dl-svg');
-const urlLabel  = document.getElementById('qr-url-label');
+const input    = document.getElementById('url-input');
+const genBtn   = document.getElementById('generate-btn');
+const qrCard   = document.getElementById('qr-card');
+const qrWrap   = document.getElementById('qr-wrap');
+const dlPng    = document.getElementById('dl-png');
+const dlSvg    = document.getElementById('dl-svg');
+const urlLabel = document.getElementById('qr-url-label');
 
 // HoamatWerk Branding
-const COLOR_DARK  = '#3B2A1A'; // Dunkelbraun – QR module color
-const COLOR_LIGHT = '#F5F0E8'; // Creme – background
+const COLOR_DARK  = '#3B2A1A';
+const COLOR_LIGHT = '#F5F0E8';
 
-let lastUrl = '';
+let qrInstance = null;
 
 function isValidUrl(str) {
   try {
@@ -31,71 +31,63 @@ function generateQR() {
     return;
   }
 
-  lastUrl = url;
+  // Clear previous
+  qrWrap.innerHTML = '';
+  if (qrInstance) { qrInstance = null; }
 
-  QRCode.toCanvas(canvas, url, {
+  qrInstance = new QRCode(qrWrap, {
+    text: url,
     width: 260,
-    margin: 2,
-    color: {
-      dark:  COLOR_DARK,
-      light: COLOR_LIGHT,
-    },
-    errorCorrectionLevel: 'H',
-  }, (err) => {
-    if (err) { console.error(err); return; }
-
-    qrCard.style.display = 'block';
-    qrCard.style.animation = 'none';
-    void qrCard.offsetWidth; // reflow
-    qrCard.style.animation = '';
-
-    // truncate long URLs for display
-    urlLabel.textContent = url.length > 60 ? url.slice(0, 57) + '…' : url;
+    height: 260,
+    colorDark: COLOR_DARK,
+    colorLight: COLOR_LIGHT,
+    correctLevel: QRCode.CorrectLevel.H,
   });
+
+  qrCard.style.display = 'block';
+  qrCard.style.animation = 'none';
+  void qrCard.offsetWidth;
+  qrCard.style.animation = '';
+
+  urlLabel.textContent = url.length > 60 ? url.slice(0, 57) + '…' : url;
 }
 
-// ── Events ──
 genBtn.addEventListener('click', generateQR);
-
-input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') generateQR();
-});
+input.addEventListener('keydown', (e) => { if (e.key === 'Enter') generateQR(); });
 
 // ── Download PNG ──
 dlPng.addEventListener('click', () => {
-  if (!lastUrl) return;
+  const img = qrWrap.querySelector('img');
+  const canvas = qrWrap.querySelector('canvas');
+  let src = '';
+  if (canvas) {
+    src = canvas.toDataURL('image/png');
+  } else if (img) {
+    src = img.src;
+  } else { return; }
   const link = document.createElement('a');
-  link.download = slugify(lastUrl) + '.png';
-  link.href = canvas.toDataURL('image/png');
+  link.download = slugify(input.value.trim()) + '.png';
+  link.href = src;
   link.click();
 });
 
-// ── Download SVG ──
+// ── Download SVG (convert canvas to SVG-wrapped PNG) ──
 dlSvg.addEventListener('click', () => {
-  if (!lastUrl) return;
-
-  QRCode.toString(lastUrl, {
-    type: 'svg',
-    width: 260,
-    margin: 2,
-    color: {
-      dark:  COLOR_DARK,
-      light: COLOR_LIGHT,
-    },
-    errorCorrectionLevel: 'H',
-  }, (err, svgString) => {
-    if (err) { console.error(err); return; }
-    const blob = new Blob([svgString], { type: 'image/svg+xml' });
-    const url  = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = slugify(lastUrl) + '.svg';
-    link.href = url;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  });
+  const canvas = qrWrap.querySelector('canvas');
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL('image/png');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="260" height="260">
+  <image href="${dataUrl}" width="260" height="260"/>
+</svg>`;
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = slugify(input.value.trim()) + '.svg';
+  link.href = url;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
-// ── Helper ──
 function slugify(url) {
   return url
     .replace(/^https?:\/\//, '')

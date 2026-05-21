@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Niconne&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -35,9 +35,7 @@
     </div>
 
     <div class="card qr-card" id="qr-card" style="display:none;">
-      <div class="qr-wrap">
-        <canvas id="qr-canvas"></canvas>
-      </div>
+      <div class="qr-wrap" id="qr-wrap"></div>
       <div class="download-row">
         <button class="dl-btn" id="dl-png">⬇ PNG</button>
         <button class="dl-btn" id="dl-svg">⬇ SVG</button>
